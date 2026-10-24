@@ -161,7 +161,7 @@
     <!-- Handle logged-in greeting context -->
 <script>
     (async function() {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('buybloom_token') || localStorage.getItem('token');
         if (!token) return;
 
         try {

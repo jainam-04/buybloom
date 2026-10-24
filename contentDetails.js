@@ -184,7 +184,7 @@ async function updateCartBadge() {
     const badge = document.getElementById("badge");
     if (!badge) return;
 
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buybloom_token') || localStorage.getItem('token');
     if (!token) {
         badge.innerHTML = "0";
         return;
@@ -205,7 +205,7 @@ async function updateCartBadge() {
 }
 
 async function addProductToCart(product) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('buybloom_token') || localStorage.getItem('token');
     if (!token) {
         alert('Please log in to add items to your cart.');
         window.location.href = 'login.html';
