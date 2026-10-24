@@ -528,7 +528,10 @@
                   adminBtn.href = 'exadmidashbord.html';
                   adminBtn.className = 'auth-btn btn-profile';
                   adminBtn.style.cssText = 'background: #2c3e50; border-color: #2c3e50;';
-                  adminBtn.innerHTML = '<i class="fas fa-shield-alt"></i> Admin';
+                  var adminIcon = document.createElement('i');
+                  adminIcon.className = 'fas fa-shield-alt';
+                  adminBtn.appendChild(adminIcon);
+                  adminBtn.appendChild(document.createTextNode(' Admin'));
                   loginBtn.parentNode.insertBefore(adminBtn, loginBtn.nextSibling);
                 }
               }
