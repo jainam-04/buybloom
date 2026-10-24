@@ -7,7 +7,7 @@ const {
       getAllTickets,
       getTicketById,
       replyToTicket,
-} = require("../controllers/ticketController");
+} = require("../controllers/TicketController");
 
 const { protect, admin } = require("../middleware/auth");
 const upload = require("../middleware/upload");
