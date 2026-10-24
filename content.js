@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://buybloom-hdt9.onrender.com";
 
 function formatPrice(price) {
   if (!price) return "₹0";

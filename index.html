@@ -36,7 +36,7 @@
 
     <script>
       // ─── Backend config ─────────────────────────────────────────
-      const API_BASE = "http://localhost:5000/api";
+      const API_BASE = "https://buybloom-hdt9.onrender.com/api";
 
       (function () {
         const token = localStorage.getItem("buybloom_token");
@@ -177,7 +177,7 @@
         top: 0;
       "
     >
-      <strong>Notice:</strong> This page is opened via <code>file:///</code>. Browsers restrict loading external HTML components and APIs over <code>file://</code> URLs. For full functionality (cart, orders, user authentication), please run the backend server and open <a href="http://localhost:5000" style="color: #0d6efd; font-weight: bold; text-decoration: underline;">http://localhost:5000</a> or use VS Code Live Server.
+      <strong>Notice:</strong> This page is opened via <code>file:///</code>. Browsers restrict loading external HTML components over <code>file://</code> URLs. For full functionality, please run through a local server or Live Server (connecting to deployed backend at <a href="https://buybloom-hdt9.onrender.com" target="_blank" style="color: #0d6efd; font-weight: bold; text-decoration: underline;">https://buybloom-hdt9.onrender.com</a>).
     </div>
 
     <!-- HEADER SLOT -->
