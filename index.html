@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>E-COMMERCE WEBSITE BY EDYODA | CREATED BY PRIYANKA SHARMA</title>
+    <link
+      rel="icon"
+      href="https://yt3.ggpht.com/a/AGF-l78km1YyNXmF0r3-0CycCA0HLA_i6zYn_8NZEg=s900-c-k-c0xffffffff-no-rj-mo"
+      type="image/gif"
+      sizes="16x16"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="js/jQuery3.4.1.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css"
+    />
+
+    <!-- Component Stylesheets -->
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/content.css" />
+    <link rel="stylesheet" href="css/footer.css" />
+
+    <script>
+      // ─── Backend config ─────────────────────────────────────────
+      const API_BASE = "http://localhost:5000/api";
+
+      (function () {
+        const token = localStorage.getItem("buybloom_token");
+        if (!token) {
+          window.location.href = "register.html";
+        }
+      })();
+
+      // Safe load function for dynamic components (prevents unhandled CORS crashes on file://)
+      function load(url) {
+        try {
+          var req = new XMLHttpRequest();
+          req.open("GET", url, false);
+          req.send(null);
+          return (req.status === 200 || req.status === 0) ? req.responseText : "";
+        } catch (e) {
+          console.warn("Could not load " + url + " via XMLHttpRequest:", e);
+          return "";
+        }
+      }
+
+      function authHeaders() {
+        const token = localStorage.getItem("buybloom_token");
+        return {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        };
+      }
+    </script>
+
+    <style>
+      body {
+        margin: 0;
+        font-family: "Lato", sans-serif;
+      }
+
+      /* Slider styles */
+      #containerSlider {
+        margin: auto;
+        width: 90%;
+        text-align: center;
+        padding-top: 100px;
+        box-sizing: border-box;
+      }
+      #containerSlider img {
+        width: 100%;
+        height: auto;
+        max-height: 480px;
+        object-fit: cover;
+        text-align: center;
+      }
+      @media (max-width: 732px) {
+        #containerSlider img {
+          max-height: 240px;
+        }
+      }
+      @media (max-width: 500px) {
+        #containerSlider img {
+          max-height: 180px;
+        }
+      }
+
+      /* Container positioning check for overlay placement */
+      .imgContainer,
+      .product-card,
+      #box {
+        position: relative;
+        padding-bottom: 45px;
+        box-sizing: border-box;
+      }
+
+      /* Action Buttons */
+      .custom-action-container {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        display: flex;
+        gap: 8px;
+        z-index: 98;
+      }
+
+      .btn-action-custom {
+        flex: 1;
+        padding: 8px 5px;
+        font-size: 12px;
+        font-family: "Lato", sans-serif;
+        font-weight: bold;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition:
+          background 0.2s ease,
+          transform 0.1s ease;
+        text-align: center;
+      }
+
+      .btn-action-custom:active {
+        transform: scale(0.97);
+      }
+
+      .btn-cart-custom {
+        background-color: #f39c12;
+        color: #ffffff;
+      }
+
+      .btn-cart-custom:hover {
+        background-color: #e67e22;
+      }
+
+      .btn-buy-custom {
+        background-color: #2c3e50;
+        color: #ffffff;
+      }
+
+      .btn-buy-custom:hover {
+        background-color: #1a252f;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top banner when opened via file:// protocol -->
+    <div
+      id="file-protocol-banner"
+      style="
+        display: none;
+        background: #fff3cd;
+        color: #856404;
+        padding: 10px 16px;
+        border-bottom: 1px solid #ffeeba;
+        text-align: center;
+        font-family: 'Lato', sans-serif;
+        font-size: 13px;
+        z-index: 99999;
+        position: sticky;
+        top: 0;
+      "
+    >
+      <strong>Notice:</strong> This page is opened via <code>file:///</code>. Browsers restrict loading external HTML components and APIs over <code>file://</code> URLs. For full functionality (cart, orders, user authentication), please run the backend server and open <a href="http://localhost:5000" style="color: #0d6efd; font-weight: bold; text-decoration: underline;">http://localhost:5000</a> or use VS Code Live Server.
+    </div>
+
+    <!-- HEADER SLOT -->
+    <div id="header-slot">
+      <!-- Fallback header if header.html is blocked by CORS/file:// -->
+      <header>
+        <section>
+          <div id="container">
+            <div id="shopName">
+              <a href="index.html"><b>BUY</b>BLOOM</a>
+            </div>
+            <div id="collection">
+              <div id="clothing"><a href="clothing.html"> CLOTHING </a></div>
+              <div id="accessories"><a href="accessories.html"> ACCESSORIES </a></div>
+            </div>
+            <div id="search">
+              <i class="fas fa-search search-icon"></i>
+              <input type="text" id="input" name="searchBox" placeholder="Search clothes..." />
+            </div>
+            <div id="user">
+              <div class="auth-buttons">
+                <a href="login.html" class="auth-btn btn-login" id="loginBtn">Login</a>
+                <a href="cart.html" class="auth-btn btn-cart">
+                  <i class="fas fa-shopping-cart addedToCart"></i> <span>Cart</span>
+                </a>
+                <a href="profile.html" class="auth-btn btn-profile">
+                  <i class="fas fa-user"></i> Profile
+                </a>
+                <a href="wishlist.html" class="auth-btn btn-profile">
+                  <i class="fas fa-heart"></i> Wishlist
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </header>
+    </div>
+    <script>
+      (function () {
+        var hHtml = load("header.html");
+        if (hHtml && hHtml.trim().length > 0) {
+          document.getElementById("header-slot").innerHTML = hHtml;
+        }
+      })();
+    </script>
+
+    <!-- SLIDER SLOT -->
+    <div id="2">
+      <section>
+        <div id="containerSlider">
+          <div class="slidingImage">
+            <img src="img/img1.png" alt="image1" />
+          </div>
+          <div class="slidingImage">
+            <img src="img/img2.png" alt="image2" />
+          </div>
+          <div class="slidingImage">
+            <img src="img/img3.png" alt="image3" />
+          </div>
+          <div class="slidingImage">
+            <img src="img/img4.png" alt="image4" />
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      (function () {
+        var sHtml = load("slider.html");
+        if (sHtml && sHtml.trim().length > 0) {
+          document.getElementById("2").innerHTML = sHtml;
+        }
+      })();
+    </script>
+
+    <!-- CONTENT SLOT -->
+    <div id="3">
+      <div id="mainContainer">
+        <h1>clothing for men and women</h1>
+        <div id="containerClothing">
+          <!-- JS rendered code -->
+        </div>
+
+        <h1>accessories for men and women</h1>
+        <div id="containerAccessories">
+          <!-- JS rendered code -->
+        </div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var cHtml = load("content.html");
+        if (cHtml && cHtml.trim().length > 0) {
+          document.getElementById("3").innerHTML = cHtml;
+        }
+      })();
+    </script>
+
+    <!-- FOOTER SLOT -->
+    <div id="4">
+      <footer>
+        <section>
+          <div id="containerFooter">
+            <div id="webFooter">
+              <h3>online store</h3>
+              <p><a href="clothing.html?category=men">Men clothing</a></p>
+              <p><a href="clothing.html?category=women">Women clothing</a></p>
+              <p><a href="accessories.html?category=men">Men accessories</a></p>
+              <p><a href="accessories.html?category=women">Women accessories</a></p>
+            </div>
+            <div id="webFooter">
+              <h3>helpful link</h3>
+              <p><a href="index.html">home</a></p>
+              <p><a href="about.html">about</a></p>
+              <p><a href="contact.html">contact</a></p>
+            </div>
+            <div id="webFooter">
+              <h3>partners</h3>
+              <p>zara</p>
+              <p>pantaloons</p>
+              <p>levis</p>
+              <p>ucb</p>
+              <p>+ many more</p>
+            </div>
+            <div id="webFooter">
+              <h3>address</h3>
+              <p>BuyBloom Pvt. Ltd.</p>
+              <p>101, Sunrise Business Park,</p>
+              <p>MG Road,</p>
+              <p>Pune, Maharashtra – 411001</p>
+              <p>India</p>
+            </div>
+          </div>
+          <div id="credit">
+            <a href="https://linkedin.com/in/Buybloom-b79401142"> © Swamii </a>
+            &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
+            <a href="https://www.Buybloom.com/" target="_blank"> Buybloom </a>
+          </div>
+        </section>
+      </footer>
+    </div>
+    <script>
+      (function () {
+        var fHtml = load("footer.html");
+        if (fHtml && fHtml.trim().length > 0) {
+          document.getElementById("4").innerHTML = fHtml;
+        }
+      })();
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        if ($("#containerSlider").length && $.fn.slick) {
+          try {
+            $("#containerSlider").slick({
+              dots: true,
+              infinite: true,
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              autoplay: true,
+              autoplaySpeed: 1500,
+            });
+          } catch (e) {
+            console.warn("Slider initialization:", e);
+          }
+        }
+      });
+    </script>
+
+    <script src="content.js"></script>
+
+    <script>
+      // Handles changing the header login link to a username greeting.
+      (function () {
+        const token = localStorage.getItem("buybloom_token");
+        if (!token) return;
+
+        fetch(`${API_BASE}/auth/profile`, {
+          method: "GET",
+          headers: authHeaders(),
+        })
+          .then((res) => (res.ok ? res.json() : Promise.reject()))
+          .then((data) => {
+            if (!data.success || !data.user) return;
+            const loginLink =
+              document.querySelector('#header-slot a[href*="login.html"]') ||
+              document.querySelector('#header-slot a[href*="register.html"]');
+            if (loginLink) {
+              loginLink.textContent = "Hi, " + data.user.name;
+              loginLink.href = "profile.html";
+            }
+          })
+          .catch(() => {
+            // Keep token or handle expiration
+          });
+      })();
+    </script>
+
+    <script>
+      $(document).ready(function () {
+        // Wait briefly for content.js to asynchronously load/render cards
+        setTimeout(function () {
+          const productCards = document.querySelectorAll(".product-card, #box");
+
+          productCards.forEach((card) => {
+            if (card.querySelector(".custom-action-container")) return; // already added
+
+            const productId = card.dataset.productId || card.id || null;
+            const actionContainer = document.createElement("div");
+            actionContainer.className = "custom-action-container";
+
+            // Add To Cart Button
+            const cartBtn = document.createElement("button");
+            cartBtn.className = "btn-action-custom btn-cart-custom";
+            cartBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> Cart';
+            cartBtn.addEventListener("click", function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+
+              if (!productId) {
+                alert("This product is missing an ID - cannot add to cart.");
+                return;
+              }
+
+              const token = localStorage.getItem("buybloom_token");
+              if (!token) {
+                alert("Please log in to add items to your cart.");
+                window.location.href = "login.html";
+                return;
+              }
+
+              fetch(`${API_BASE}/cart`, {
+                method: "POST",
+                headers: authHeaders(),
+                body: JSON.stringify({ productId: productId, quantity: 1 }),
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.success) {
+                    alert("Item successfully added to cart!");
+                    if (typeof updateCartBadge === "function") {
+                      updateCartBadge();
+                    }
+                  } else {
+                    alert(data.message || "Failed to add item to cart.");
+                  }
+                })
+                .catch(() =>
+                  alert("Failed to add item to cart. Please try again.")
+                );
+            });
+
+            // Buy Now Button
+            const buyBtn = document.createElement("button");
+            buyBtn.className = "btn-action-custom btn-buy-custom";
+            buyBtn.innerHTML = "Buy Now";
+            buyBtn.addEventListener("click", function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+
+              if (!productId) {
+                alert("This product is missing an ID - cannot proceed to checkout.");
+                return;
+              }
+
+              const token = localStorage.getItem("buybloom_token");
+              if (!token) {
+                alert("Please log in to continue to checkout.");
+                window.location.href = "login.html";
+                return;
+              }
+
+              fetch(`${API_BASE}/cart`, {
+                method: "POST",
+                headers: authHeaders(),
+                body: JSON.stringify({ productId: productId, quantity: 1 }),
+              })
+                .then((res) => res.json())
+                .then((data) => {
+                  if (data.success) {
+                    window.location.href = "cart.html";
+                  } else {
+                    alert(data.message || "Failed to proceed to checkout.");
+                  }
+                })
+                .catch(() =>
+                  alert("Failed to proceed to checkout. Please try again.")
+                );
+            });
+
+            actionContainer.appendChild(cartBtn);
+            actionContainer.appendChild(buyBtn);
+            card.appendChild(actionContainer);
+          });
+        }, 500);
+      });
+    </script>
+
+    <script>
+      // Display warning banner if opened via file:// protocol
+      if (window.location.protocol === "file:") {
+        var banner = document.getElementById("file-protocol-banner");
+        if (banner) {
+          banner.style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>
