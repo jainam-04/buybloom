@@ -136,6 +136,47 @@
               "
               >guest@buybloom.com</p
             >
+            <div id="admin-actions-container" style="display: none; margin-bottom: 15px; border-top: 1px solid #eee; padding-top: 15px;">
+              <span style="display: inline-block; background: #2c3e50; color: #fff; font-size: 11px; font-weight: bold; padding: 4px 10px; border-radius: 12px; margin-bottom: 10px;">
+                <i class="fas fa-shield-alt"></i> Administrator
+              </span>
+              <a
+                href="exadmidashbord.html"
+                style="
+                  display: block;
+                  width: 100%;
+                  padding: 9px;
+                  background: #2c3e50;
+                  color: #fff;
+                  border-radius: 4px;
+                  font-size: 13px;
+                  font-weight: bold;
+                  text-decoration: none;
+                  margin-bottom: 8px;
+                  box-sizing: border-box;
+                "
+              >
+                <i class="fas fa-chart-line"></i> Admin Dashboard
+              </a>
+              <a
+                href="adusers.html"
+                style="
+                  display: block;
+                  width: 100%;
+                  padding: 9px;
+                  background: #3498db;
+                  color: #fff;
+                  border-radius: 4px;
+                  font-size: 13px;
+                  font-weight: bold;
+                  text-decoration: none;
+                  margin-bottom: 12px;
+                  box-sizing: border-box;
+                "
+              >
+                <i class="fas fa-users"></i> Manage Users
+              </a>
+            </div>
             <button
               onclick="logoutUser()"
               style="
@@ -404,6 +445,11 @@
             user.address.state || "";
           document.getElementById("prof-zip").value =
             user.address.zipCode || "";
+        }
+
+        if (user.isAdmin || user.role === "admin") {
+          const adminContainer = document.getElementById("admin-actions-container");
+          if (adminContainer) adminContainer.style.display = "block";
         }
 
         // Update header greeting too

@@ -520,8 +520,17 @@
             })
             .then(function (data) {
               if (data.success && data.user) {
-                loginBtn.textContent = 'Hi, ' + (data.user.name).split(' ')[0]
+                loginBtn.textContent = 'Hi, ' + (data.user.name).split(' ')[0];
                 loginBtn.href = 'profile.html';
+                if ((data.user.isAdmin || data.user.role === 'admin') && !document.getElementById('adminHeaderBtn')) {
+                  var adminBtn = document.createElement('a');
+                  adminBtn.id = 'adminHeaderBtn';
+                  adminBtn.href = 'exadmidashbord.html';
+                  adminBtn.className = 'auth-btn btn-profile';
+                  adminBtn.style.cssText = 'background: #2c3e50; border-color: #2c3e50;';
+                  adminBtn.innerHTML = '<i class="fas fa-shield-alt"></i> Admin';
+                  loginBtn.parentNode.insertBefore(adminBtn, loginBtn.nextSibling);
+                }
               }
             })
             .catch(function () {
